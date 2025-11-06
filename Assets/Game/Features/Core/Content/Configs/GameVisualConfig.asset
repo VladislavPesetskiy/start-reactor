@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69438021e4a94f83a4dae0bde11cd9b9, type: 3}
+  m_Name: GameVisualConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Core.GameVisualConfig
+  <InputFieldViewPrefab>k__BackingField: {fileID: 6366731266900683915, guid: c4f55636e44234202bf2813c22e2d5c3, type: 3}
+  <InputFieldSlotViewPrefab>k__BackingField: {fileID: 2526418699079338481, guid: 8dd5e5d8ada6e41a9bdc36e6c9abbf93, type: 3}
+  <ReferenceFieldViewPrefab>k__BackingField: {fileID: 6391245691043974147, guid: dec6f1399dc024e1597e78b4c2e3ad25, type: 3}
+  <ReferenceFieldSlotViewPrefab>k__BackingField: {fileID: 7449984985192559663, guid: 0561bc5768cb546bfa601963e6c62e86, type: 3}

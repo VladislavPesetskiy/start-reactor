@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3d3db75e7644d7aa005e58fa7708fb, type: 3}
+  m_Name: LevelsConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Core.LevelsConfig
+  <RepeatType>k__BackingField: 0
+  <LevelVariants>k__BackingField:
+  - <FieldSizeX>k__BackingField: 3
+    <FieldSizeY>k__BackingField: 3
+    <Iterations>k__BackingField: 010000000200000003000000
+  - <FieldSizeX>k__BackingField: 4
+    <FieldSizeY>k__BackingField: 3
+    <Iterations>k__BackingField: 02000000040000000600000008000000
+  - <FieldSizeX>k__BackingField: 4
+    <FieldSizeY>k__BackingField: 4
+    <Iterations>k__BackingField: 0100000002000000030000000400000006000000080000000a0000000c000000
