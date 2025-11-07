@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.UI.Core.Scripts.GameWinScreenView
   m_canvasGroup: {fileID: 4818074970589621760}
   m_showFadeDuration: 0.5
-  m_hideFadeDuration: 0.5
+  m_hideFadeDuration: 0.25
   m_nextButton: {fileID: 5069681252918340155}
 --- !u!225 &4818074970589621760
 CanvasGroup:
