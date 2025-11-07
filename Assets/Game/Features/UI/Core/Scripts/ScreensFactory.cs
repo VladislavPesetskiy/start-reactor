@@ -15,7 +15,7 @@ namespace Game.UI.Core.Scripts
             m_uiView = uiView;
         }
         
-        public TScreenView CrateScreen<TScreenView>(bool showImmediately = false) where TScreenView : ScreenView
+        public TScreenView CreateScreen<TScreenView>() where TScreenView : ScreenView
         {
             string screenName = typeof(TScreenView).FullName;
             ScreenData screenData = GetScreenData(screenName);

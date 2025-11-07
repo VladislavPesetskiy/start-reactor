@@ -1,14 +1,15 @@
+using Game.Environment.Fields;
 using Playtika.Controllers;
 
 namespace Game.Environment.Slots.Scripts
 {
     public class FieldSlotController : ControllerWithResultBase<FieldSlotArgs, EmptyControllerResult>
     {
-        private readonly FieldSlotFactory m_factory;
+        private readonly FieldFactory m_factory;
        
         protected FieldSlotView View { get; private set; }
 
-        public FieldSlotController(IControllerFactory controllerFactory, FieldSlotFactory factory) : base(controllerFactory)
+        public FieldSlotController(IControllerFactory controllerFactory, FieldFactory factory) : base(controllerFactory)
         {
             m_factory = factory;
         }
@@ -17,7 +18,7 @@ namespace Game.Environment.Slots.Scripts
         {
             base.OnStart();
             
-            View = m_factory.Create(Args.Parent, Args.SlotViewPrefab);
+            View = m_factory.CreateFieldSlotView(Args.SlotViewPrefab, Args.Parent);
             View.SpriteRenderer.size = Args.SlotSize;
             View.Collider.size = Args.SlotSize;
             View.transform.localPosition = Args.LocalPosition;

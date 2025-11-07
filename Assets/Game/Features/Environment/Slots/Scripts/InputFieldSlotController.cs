@@ -15,7 +15,7 @@ namespace Game.Environment.Slots.Scripts
         public InputFieldSlotController
         (
             IControllerFactory controllerFactory,
-            FieldSlotFactory factory,
+            FieldFactory factory,
             IFieldEventsRequestsModel requestsModel,
             GameModel gameModel
         ) : base(controllerFactory, factory)

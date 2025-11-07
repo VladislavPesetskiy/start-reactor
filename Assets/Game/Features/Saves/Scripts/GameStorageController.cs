@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Game.Core;
 using Playtika.Controllers;
 
@@ -18,7 +19,6 @@ namespace Game.Saves.Scripts
         {
             base.OnStart();
             
-            m_storageDataModel.Load();
             m_gameEventsModel.EventWin += OnLevelCompleted;
         }
 
@@ -32,7 +32,7 @@ namespace Game.Saves.Scripts
         private void OnLevelCompleted()
         {
             m_storageDataModel.IncreaseLevelIndex();
-            m_storageDataModel.Save();
+            ExecuteAndWaitResultAsync<GameSaveStorageController>(CancellationToken).Forget();
         }
     }
 }

@@ -18,6 +18,11 @@ namespace Game.Core
         public LevelVariantData GetCurrentLevelVariant()
         {
             LevelVariantData levelVariant;
+            if (m_storageDataModel.CurrentLevelIndex < m_levelsConfig.LevelVariants.Length)
+            {
+                levelVariant = m_levelsConfig.LevelVariants[m_storageDataModel.CurrentLevelIndex];
+                return levelVariant;
+            }
             
             LevelsRepeatType repeatType = m_levelsConfig.RepeatType;
             switch (repeatType)

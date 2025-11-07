@@ -37,9 +37,6 @@ namespace Game.Environment.Slots.Scripts
         {
             while (cancellationToken.IsCancellationRequested == false)
             {
-                await m_completionSource.Task;
-                cancellationToken.ThrowIfCancellationRequested();
-
                 if (m_gameModel.IsFieldInteractableEnabled)
                 {
                     await Args.View.PlayEnableInteractableAnimation(cancellationToken);
@@ -50,6 +47,10 @@ namespace Game.Environment.Slots.Scripts
                 }
                 
                 cancellationToken.ThrowIfCancellationRequested();
+                
+                await m_completionSource.Task;
+                cancellationToken.ThrowIfCancellationRequested();
+                
                 m_completionSource = new UniTaskCompletionSource();
             }
         }

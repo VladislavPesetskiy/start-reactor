@@ -1,5 +1,6 @@
 using Game.Environment.Core;
 using Game.Environment.Fields;
+using Game.Environment.Indicators;
 using Game.Environment.Slots.Scripts;
 using Game.GameLogic.Scripts;
 using Game.Saves.Scripts;
@@ -17,9 +18,6 @@ namespace Game.Core
         private GameView m_gameView;
         
         [SerializeField]
-        private GameVisualConfig m_gameVisualConfig;
-        
-        [SerializeField]
         private LevelsConfig m_levelsConfig;
         
         [SerializeField]
@@ -34,14 +32,18 @@ namespace Game.Core
 
             builder.RegisterInstance(m_gameView.GameEnvironmentView);
             builder.RegisterInstance(m_gameView.GameUIView);
-            builder.RegisterInstance(m_gameVisualConfig);
             builder.RegisterInstance(m_levelsConfig);
             builder.RegisterInstance(m_screensConfig);
             
             builder.Register<GameModel>(Lifetime.Singleton);
             builder.Register<FieldEventsModel>(Lifetime.Singleton);
+            builder.Register<GameStorageDataModel>(Lifetime.Singleton);
+            
             builder.Register<IGameEventsModel, IGameEventsRequestsModel, GameEventsModel>(Lifetime.Singleton);
             builder.Register<IFieldEventsModel, IFieldEventsRequestsModel, FieldEventsModel>(Lifetime.Singleton);
+
+            builder.Register<GameLoadStorageController>(Lifetime.Singleton);
+            builder.Register<GameSaveStorageController>(Lifetime.Transient);
             
             builder.Register<GameEnvironmentController>(Lifetime.Transient);
             builder.Register<GameLogicController>(Lifetime.Transient);
@@ -52,14 +54,18 @@ namespace Game.Core
             builder.Register<InputFieldSlotController>(Lifetime.Transient);
             builder.Register<ReferenceFieldSlotController>(Lifetime.Transient);
             builder.Register<ReferenceFieldSequenceController>(Lifetime.Transient);
+            builder.Register<InputFieldIndicatorController>(Lifetime.Transient);
+            builder.Register<ReferenceFieldIndicatorController>(Lifetime.Transient);
             builder.Register<FieldSlotInteractableController>(Lifetime.Transient);
+            
+            builder.Register<GameMenuScreenController>(Lifetime.Transient);
             builder.Register<GameWinScreenController>(Lifetime.Transient);
             
             builder.Register<LevelsProvider>(Lifetime.Singleton);
-            builder.Register<FieldFactory>(Lifetime.Singleton);
-            builder.Register<FieldSlotFactory>(Lifetime.Singleton);
             builder.Register<ResourcesProvider>(Lifetime.Singleton);
-            builder.Register<GameStorageDataModel>(Lifetime.Singleton);
+            builder.Register<FieldVisualProvider>(Lifetime.Singleton);
+
+            builder.Register<FieldFactory>(Lifetime.Singleton);
             builder.Register<ScreensFactory>(Lifetime.Singleton);
         }
     }

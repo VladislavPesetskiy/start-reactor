@@ -1,4 +1,6 @@
 using Cysharp.Threading.Tasks;
+using Game.Saves.Scripts;
+using Game.UI.Core.Scripts;
 using Playtika.Controllers;
 
 namespace Game.Core
@@ -19,9 +21,16 @@ namespace Game.Core
 
         private async UniTask FlowAsync()
         {
-            while (!CancellationToken.IsCancellationRequested)
+            await ExecuteAndWaitResultAsync<GameLoadStorageController>(CancellationToken);
+            CancellationToken.ThrowIfCancellationRequested();
+            
+            while (CancellationToken.IsCancellationRequested == false)
             {
+                await ExecuteAndWaitResultAsync<GameMenuScreenController>(CancellationToken);
+                CancellationToken.ThrowIfCancellationRequested();
+                
                 await ExecuteAndWaitResultAsync<GameLoopController>(CancellationToken);
+                CancellationToken.ThrowIfCancellationRequested();
             }
         }
     }

@@ -13,6 +13,8 @@ namespace Game.Core
         private readonly GameModel m_gameModel;
         private readonly IGameEventsModel m_gameEventsModel;
 
+        private UniTaskCompletionSource m_completionSource = new();
+
         public GameLoopController(IControllerFactory controllerFactory, GameModel gameModel, IGameEventsModel gameEventsModel) : base(controllerFactory)
         {
             m_gameModel = gameModel;
@@ -29,22 +31,23 @@ namespace Game.Core
             m_gameEventsModel.EventRestart -= OnEventRestart;
         }
 
-        protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
         {
             Execute<GameStorageController>();
-            
             m_gameModel.Initialize();
             
             Execute<GameUIController>();
-            ExecuteAndWaitResultAsync<GameEnvironmentController>(CancellationToken).Forget();
             ExecuteAndWaitResultAsync<GameLogicController>(CancellationToken).Forget();
+
+            await m_completionSource.Task;
+            cancellationToken.ThrowIfCancellationRequested();
             
-            return base.OnFlowAsync(cancellationToken);
+            Complete();
         }
 
         private void OnEventRestart()
         {
-            Complete();
+            m_completionSource.TrySetResult();
         }
     }
 }

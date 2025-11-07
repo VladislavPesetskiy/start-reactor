@@ -15,3 +15,5 @@ MonoBehaviour:
   <Screens>k__BackingField:
   - <ScreenViewPrefab>k__BackingField: {fileID: 5481540049763477034, guid: 76ef573386253419abf20d6e762c4243, type: 3}
     <ScreenId>k__BackingField: Game.UI.Core.Scripts.GameWinScreenView
+  - <ScreenViewPrefab>k__BackingField: {fileID: 2062875637361669552, guid: caca914e8d3f6422d8ba2edcaa0faa2f, type: 3}
+    <ScreenId>k__BackingField: Game.UI.Core.Scripts.GameMenuScreenView

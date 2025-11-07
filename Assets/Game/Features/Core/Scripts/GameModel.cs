@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Core
 {
@@ -6,6 +8,8 @@ namespace Game.Core
     {
         private readonly LevelsProvider m_levelsProvider;
 
+        public event Action<int> EventIterationPointerChanged;
+        public event Action<int> EventIterationChanged;
         public LevelVariantData CurrentLevelVariant { get; private set; }
         public Vector2[] ReferenceSequence { get; private set; }
         public int CurrentIterationPointerIndex { get; private set; } = 0;
@@ -21,6 +25,8 @@ namespace Game.Core
         {
             CurrentLevelVariant = m_levelsProvider.GetCurrentLevelVariant();
             CurrentLevelIterationIndex = 0;
+            CurrentIterationPointerIndex = 0;
+            IsFieldInteractableEnabled = false;
             
             CreateTargetSequence();
         }
@@ -28,11 +34,14 @@ namespace Game.Core
         public void IncreaseIterationPointer()
         {
             CurrentIterationPointerIndex++;
+            EventIterationPointerChanged?.Invoke(CurrentIterationPointerIndex);
         }
 
         public void IncreaseIterationIndex()
         {
             CurrentLevelIterationIndex++;
+            EventIterationChanged?.Invoke(CurrentLevelIterationIndex);
+            
             if (CurrentLevelIterationIndex >= CurrentLevelVariant.Iterations.Length)
             {
                 return;
@@ -44,6 +53,7 @@ namespace Game.Core
         public void ResetIterationPointer()
         {
             CurrentIterationPointerIndex = 0;
+            EventIterationPointerChanged?.Invoke(CurrentIterationPointerIndex);
         }
 
         public void SetFieldInputEnabled(bool enabled)
@@ -73,8 +83,8 @@ namespace Game.Core
             ReferenceSequence = new Vector2[sequenceLength];
             for (int i = 0; i < sequenceLength; i++)
             {
-                int randomX = Random.Range(0, CurrentLevelVariant.FieldSizeX - 1);
-                int randomY = Random.Range(0, CurrentLevelVariant.FieldSizeY - 1);
+                int randomX = Random.Range(0, CurrentLevelVariant.FieldSizeX);
+                int randomY = Random.Range(0, CurrentLevelVariant.FieldSizeY);
                 
                 ReferenceSequence[i] = new Vector2(randomX, randomY);
             }

@@ -1,6 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Core;
+using Game.Environment.Core;
 using Game.Environment.Fields;
 using Playtika.Controllers;
 using UnityEngine;
@@ -13,6 +14,9 @@ namespace Game.GameLogic.Scripts
         private readonly IFieldEventsModel m_fieldEventsModel;
         private readonly IFieldEventsRequestsModel m_fieldRequestsModel;
         private readonly IGameEventsRequestsModel m_eventsRequestsModel;
+
+        private const float DelayAfterReferenceShown = 0.5f;
+        private const float DelayAfterInputFieldComplete = 0.25f;
 
         private UniTaskCompletionSource m_completionSource = new();
 
@@ -47,6 +51,8 @@ namespace Game.GameLogic.Scripts
 
         protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
         {
+            ExecuteAndWaitResultAsync<GameEnvironmentController>(CancellationToken).Forget();
+            
             m_gameModel.SetFieldInputEnabled(false);
             m_fieldRequestsModel.RequestFieldInteractableChanged();
             m_fieldRequestsModel.RequestUpdateInteractableView();
@@ -56,7 +62,7 @@ namespace Game.GameLogic.Scripts
                 await ExecuteAndWaitResultAsync<ReferenceFieldSequenceController>(cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
 
-                await UniTask.WaitForSeconds(0.5f, cancellationToken: cancellationToken);
+                await UniTask.WaitForSeconds(DelayAfterReferenceShown, cancellationToken: cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
                 
                 m_gameModel.SetFieldInputEnabled(true);
@@ -69,10 +75,12 @@ namespace Game.GameLogic.Scripts
                 m_gameModel.SetFieldInputEnabled(false);
                 m_fieldRequestsModel.RequestFieldInteractableChanged();
                 
-                await UniTask.WaitForSeconds(0.25f, cancellationToken: cancellationToken);
+                await UniTask.WaitForSeconds(DelayAfterInputFieldComplete, cancellationToken: cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
 
+                m_gameModel.ResetIterationPointer();
                 m_fieldRequestsModel.RequestUpdateInteractableView();
+                
                 m_completionSource = new UniTaskCompletionSource();
             }
         }
@@ -102,7 +110,6 @@ namespace Game.GameLogic.Scripts
         private void IncreaseIteration()
         {
             m_gameModel.IncreaseIterationIndex();
-            m_gameModel.ResetIterationPointer();
                     
             if (m_gameModel.IsIterationsCompleted())
             {

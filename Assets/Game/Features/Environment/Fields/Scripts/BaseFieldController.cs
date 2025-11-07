@@ -9,43 +9,66 @@ namespace Game.Environment.Fields
     public abstract class BaseFieldController : ControllerWithResultBase<FieldControllerArgs, EmptyControllerResult>
     {
         protected FieldView View { get; private set; }
+        protected virtual float OffsetBetweenSlotsPercent => 0.05f;
         
         public BaseFieldController(IControllerFactory controllerFactory) : base(controllerFactory)
         {
         }
-        
-        protected override UniTask OnFlowAsync(CancellationToken cancellationToken)
+
+        protected override void OnStop()
         {
-            View = CreateView();
+            base.OnStop();
             
-            float slotSize = Args.LevelVariantData.FieldSizeX >= Args.LevelVariantData.FieldSizeY
-                ? View.SlotsArea.x / Args.LevelVariantData.FieldSizeX
-                : View.SlotsArea.y / Args.LevelVariantData.FieldSizeY;
+            Object.Destroy(View.gameObject);
+        }
 
-            float offsetX = slotSize * Args.LevelVariantData.FieldSizeX * 0.5f - slotSize * 0.5f;
-            float offsetY = slotSize * Args.LevelVariantData.FieldSizeY * 0.5f - slotSize * 0.5f;
+        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        {
+            View = await CreateView(cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+            
+            FieldSlotView slotViewPrefab = await GetSlotViewPrefab(cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            float totalWidth = View.SlotsArea.x;
+            float totalHeight = View.SlotsArea.y;
+            int slotsX = Args.LevelVariantData.FieldSizeX;
+            int slotsY = Args.LevelVariantData.FieldSizeY;
+
+            float spacingX = OffsetBetweenSlotsPercent * totalWidth / (slotsX - 1 > 0 ? slotsX - 1 : 1);
+            float spacingY = OffsetBetweenSlotsPercent * totalHeight / (slotsY - 1 > 0 ? slotsY - 1 : 1);
+
+            float spacing = slotsX > slotsY ? spacingX : spacingY;
+            spacingX = spacingY = spacing;
+
+            float slotSizeX = (totalWidth - spacingX * (slotsX - 1)) / slotsX;
+            float slotSizeY = (totalHeight - spacingY * (slotsY - 1)) / slotsY;
+
+            float slotSize = Mathf.Min(slotSizeX, slotSizeY);
+
+            float totalSlotsWidth = slotSize * slotsX + spacingX * (slotsX - 1);
+            float totalSlotsHeight = slotSize * slotsY + spacingY * (slotsY - 1);
+
+            float offsetX = totalSlotsWidth * 0.5f - slotSize * 0.5f;
+            float offsetY = totalSlotsHeight * 0.5f - slotSize * 0.5f;
             var offset = new Vector2(offsetX, offsetY);
-
-            FieldSlotView slotViewPrefab = GetSlotViewPrefab();
             
-            for (int y = 0; y < Args.LevelVariantData.FieldSizeY; y++)
+            for (int y = 0; y < slotsY; y++)
             {
-                for (int x = 0; x < Args.LevelVariantData.FieldSizeX; x++)
+                for (int x = 0; x < slotsX; x++)
                 {
                     Vector2 coord = new Vector2(x, y);
-                    Vector2 localPosition = new Vector2(slotSize * x, slotSize * y) - offset;
+                    Vector2 localPosition = new Vector2(x * (slotSize + spacingX), y * (slotSize + spacingY)) - offset;
                     Vector2 spriteSize = Vector2.one * slotSize;
                     
                     var slotArgs = new FieldSlotArgs(slotViewPrefab, View.SlotsContainer, coord, localPosition, spriteSize);
                     ExecuteSlotController(slotArgs, cancellationToken);
                 }
             }
-            
-            return base.OnFlowAsync(cancellationToken);
         }
 
-        protected abstract FieldView CreateView();
-        protected abstract FieldSlotView GetSlotViewPrefab();
+        protected abstract UniTask<FieldView> CreateView(CancellationToken cancellationToken);
+        protected abstract UniTask<FieldSlotView> GetSlotViewPrefab(CancellationToken cancellationToken);
         protected abstract void ExecuteSlotController(FieldSlotArgs args, CancellationToken cancellationToken);
     }
 }

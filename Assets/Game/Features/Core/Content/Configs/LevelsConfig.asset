@@ -12,14 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3d3db75e7644d7aa005e58fa7708fb, type: 3}
   m_Name: LevelsConfig
   m_EditorClassIdentifier: Assembly-CSharp::Game.Core.LevelsConfig
-  <RepeatType>k__BackingField: 0
+  <RepeatType>k__BackingField: 1
   <LevelVariants>k__BackingField:
+  - <FieldSizeX>k__BackingField: 2
+    <FieldSizeY>k__BackingField: 2
+    <Iterations>k__BackingField: 010000000200000003000000
   - <FieldSizeX>k__BackingField: 3
     <FieldSizeY>k__BackingField: 3
-    <Iterations>k__BackingField: 010000000200000003000000
+    <Iterations>k__BackingField: 01000000030000000300000004000000
   - <FieldSizeX>k__BackingField: 4
     <FieldSizeY>k__BackingField: 3
-    <Iterations>k__BackingField: 02000000040000000600000008000000
+    <Iterations>k__BackingField: 0100000002000000030000000400000005000000
   - <FieldSizeX>k__BackingField: 4
-    <FieldSizeY>k__BackingField: 4
-    <Iterations>k__BackingField: 0100000002000000030000000400000006000000080000000a0000000c000000
+    <FieldSizeY>k__BackingField: 6
+    <Iterations>k__BackingField: 02000000030000000500000006000000
+  - <FieldSizeX>k__BackingField: 5
+    <FieldSizeY>k__BackingField: 5
+    <Iterations>k__BackingField: 02000000040000000600000007000000

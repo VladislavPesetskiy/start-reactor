@@ -1,4 +1,6 @@
 using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Game.Saves.Scripts
@@ -11,10 +13,13 @@ namespace Game.Saves.Scripts
         public string SaveKey => GetType().FullName;
         public object Persistence => Data;
 
-        public void Load()
+        // todo to async
+        public UniTask Load(CancellationToken cancellationToken)
         {
             if (IsLoaded)
-                return;
+            {
+                return UniTask.CompletedTask;
+            }
 
             if (PlayerPrefs.HasKey(SaveKey))
             {
@@ -44,14 +49,16 @@ namespace Game.Saves.Scripts
             }
 
             IsLoaded = true;
+            return UniTask.CompletedTask;
         }
 
-        public void Save()
+        // todo to async
+        public UniTask Save(CancellationToken cancellationToken)
         {
             if (IsLoaded == false)
             {
                 Debug.LogError("Data model cannot be saved, cause model is not loaded.");
-                return;
+                return UniTask.CompletedTask;
             }
 
             try
@@ -64,6 +71,8 @@ namespace Game.Saves.Scripts
             {
                 Debug.LogError($"Error saving model {SaveKey}: {e.Message}");
             }
+            
+            return UniTask.CompletedTask;
         }
 
         public void ResetData()

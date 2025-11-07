@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Core;
 using Playtika.Controllers;
+using UnityEngine;
 
 namespace Game.UI.Core.Scripts
 {
@@ -26,7 +27,7 @@ namespace Game.UI.Core.Scripts
 
         protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
         {
-            m_view = m_screensFactory.CrateScreen<GameWinScreenView>();
+            m_view = m_screensFactory.CreateScreen<GameWinScreenView>();
             m_view.EventNextButtonClick += OnNextButtonClick;
             
             await m_view.PlayShowAnimation(cancellationToken);
@@ -47,6 +48,7 @@ namespace Game.UI.Core.Scripts
             base.OnStop();
             
             m_view.EventNextButtonClick -= OnNextButtonClick;
+            Object.Destroy(m_view.gameObject);
         }
 
         private void OnNextButtonClick()

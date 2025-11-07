@@ -11,7 +11,12 @@ namespace Game.Environment.Slots.Scripts
         private readonly IFieldEventsModel m_eventsModel;
         private UniTaskCompletionSource m_slotSelectedSource = new();
 
-        public ReferenceFieldSlotController(IControllerFactory controllerFactory, FieldSlotFactory factory, IFieldEventsModel eventsModel) : base(controllerFactory, factory)
+        public ReferenceFieldSlotController
+        (
+            IControllerFactory controllerFactory,
+            FieldFactory factory,
+            IFieldEventsModel eventsModel
+        ) : base(controllerFactory, factory)
         {
             m_eventsModel = eventsModel;
         }
