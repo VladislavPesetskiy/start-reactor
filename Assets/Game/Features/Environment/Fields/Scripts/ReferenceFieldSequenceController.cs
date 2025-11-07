@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Environment.Fields
 {
-    public class ReferenceFieldSequenceController : ControllerWithResultBase<EmptyControllerResult>
+    public class ReferenceFieldSequenceController : ControllerWithResultBase
     {
         private readonly IFieldEventsRequestsModel m_requestsModel;
         private readonly GameModel m_gameModel;
@@ -31,7 +31,7 @@ namespace Game.Environment.Fields
                 cancellationToken.ThrowIfCancellationRequested();
             }
             
-            Complete(new EmptyControllerResult());
+            Complete();
         }
     }
 }

@@ -51,7 +51,7 @@ namespace Game.GameLogic.Scripts
 
         protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
         {
-            ExecuteAndWaitResultAsync<GameEnvironmentController>(CancellationToken).Forget();
+            Execute<GameEnvironmentController>();
             
             m_gameModel.SetFieldInputEnabled(false);
             m_fieldRequestsModel.RequestFieldInteractableChanged();

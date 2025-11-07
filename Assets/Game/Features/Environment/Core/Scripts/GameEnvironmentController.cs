@@ -1,4 +1,3 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.Core;
 using Game.Environment.Fields;
@@ -6,7 +5,7 @@ using Playtika.Controllers;
 
 namespace Game.Environment.Core
 {
-    public class GameEnvironmentController : ControllerWithResultBase
+    public class GameEnvironmentController : ControllerBase
     {
         private readonly GameModel m_model;
 
@@ -15,11 +14,13 @@ namespace Game.Environment.Core
             m_model = model;
         }
 
-        protected override async UniTask OnFlowAsync(CancellationToken cancellationToken)
+        protected override void OnStart()
         {
+            base.OnStart();
+            
             var args = new FieldControllerArgs(m_model.CurrentLevelVariant);
-            ExecuteAndWaitResultAsync<ReferenceFieldController, FieldControllerArgs>(args, cancellationToken).Forget();
-            ExecuteAndWaitResultAsync<InputFieldController, FieldControllerArgs>(args, cancellationToken).Forget();
+            ExecuteAndWaitResultAsync<ReferenceFieldController, FieldControllerArgs>(args, CancellationToken).Forget();
+            ExecuteAndWaitResultAsync<InputFieldController, FieldControllerArgs>(args, CancellationToken).Forget();
         }
     }
 }

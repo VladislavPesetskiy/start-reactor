@@ -7,7 +7,5 @@ namespace Game.UI.Core.Scripts
     {
         [field: SerializeField]
         public ScreenData[] Screens { get; private set; }
-        
-        
     }
 }

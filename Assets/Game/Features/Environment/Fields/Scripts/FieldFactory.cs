@@ -25,6 +25,7 @@ namespace Game.Environment.Fields
 
             Transform spawnPoint = m_environmentView.ReferenceFieldPoint;
             ReferenceFieldView instance = Object.Instantiate(prefab, spawnPoint);
+            
             return instance;
         }
 
@@ -35,18 +36,21 @@ namespace Game.Environment.Fields
 
             Transform spawnPoint = m_environmentView.InputFieldPoint;
             FieldView instance = Object.Instantiate(prefab, spawnPoint);
+            
             return instance;
         }
 
         public FieldSlotView CreateFieldSlotView(FieldSlotView prefab, Transform parent)
         {
             FieldSlotView instance = Object.Instantiate(prefab, parent);
+            
             return instance;
         }
 
         public FieldIndicatorView CreateFieldIndicatorView(FieldIndicatorView prefab, Transform parent)
         {
             FieldIndicatorView instance = Object.Instantiate(prefab, parent);
+            
             return instance;
         }
     }

@@ -30,6 +30,11 @@ namespace Game.Environment.Fields
             FieldSlotView slotViewPrefab = await GetSlotViewPrefab(cancellationToken);
             cancellationToken.ThrowIfCancellationRequested();
 
+            GenerateSlots(slotViewPrefab, cancellationToken);
+        }
+
+        protected virtual void GenerateSlots(FieldSlotView slotViewPrefab, CancellationToken cancellationToken)
+        {
             float totalWidth = View.SlotsArea.x;
             float totalHeight = View.SlotsArea.y;
             int slotsX = Args.LevelVariantData.FieldSizeX;

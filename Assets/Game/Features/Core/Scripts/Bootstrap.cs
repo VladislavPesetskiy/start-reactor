@@ -6,20 +6,20 @@ namespace Game.Core
 {
     public class Bootstrap : IStartable, IDisposable
     {
-        private readonly BootstrapController _bootstrapController;
+        private readonly BootstrapController m_bootstrapController;
 
-        private CancellationTokenSource _cancellationTokenSource = new();
+        private CancellationTokenSource m_cancellationTokenSource = new();
 
         public Bootstrap(BootstrapController bootstrapController)
         {
-            _bootstrapController = bootstrapController;
+            m_bootstrapController = bootstrapController;
         }
 
         public void Start()
         {
             try
             {
-                _bootstrapController.LaunchTree(_cancellationTokenSource.Token);
+                m_bootstrapController.LaunchTree(m_cancellationTokenSource.Token);
             }
             catch (OperationCanceledException)
             {
@@ -32,10 +32,10 @@ namespace Game.Core
 
         public void Dispose()
         {
-            _cancellationTokenSource?.Cancel();
-            _cancellationTokenSource?.Dispose();
+            m_cancellationTokenSource?.Cancel();
+            m_cancellationTokenSource?.Dispose();
 
-            _cancellationTokenSource = null;
+            m_cancellationTokenSource = null;
         }
     }
 }
